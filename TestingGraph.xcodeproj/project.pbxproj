@@ -16,6 +16,7 @@
 		18B7E6051CC54DAC00A8669E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 18B7E6031CC54DAC00A8669E /* LaunchScreen.storyboard */; };
 		18B7E6101CC54DAC00A8669E /* TestingGraphTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B7E60F1CC54DAC00A8669E /* TestingGraphTests.m */; };
 		18B7E61B1CC54DAC00A8669E /* TestingGraphUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B7E61A1CC54DAC00A8669E /* TestingGraphUITests.m */; };
+		18B7E62A1CC5ACDE00A8669E /* Accelerometer.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B7E6291CC5ACDE00A8669E /* Accelerometer.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +55,8 @@
 		18B7E6161CC54DAC00A8669E /* TestingGraphUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TestingGraphUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		18B7E61A1CC54DAC00A8669E /* TestingGraphUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TestingGraphUITests.m; sourceTree = "<group>"; };
 		18B7E61C1CC54DAC00A8669E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		18B7E6281CC5ACDE00A8669E /* Accelerometer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Accelerometer.h; path = ../ACCDelegate/Accelerometer.h; sourceTree = "<group>"; };
+		18B7E6291CC5ACDE00A8669E /* Accelerometer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Accelerometer.m; path = ../ACCDelegate/Accelerometer.m; sourceTree = "<group>"; };
 		87395E80D9F7395B72739A33 /* libPods-TestingGraph.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TestingGraph.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -86,6 +89,8 @@
 		18B7E5E91CC54DAC00A8669E = {
 			isa = PBXGroup;
 			children = (
+				18B7E6281CC5ACDE00A8669E /* Accelerometer.h */,
+				18B7E6291CC5ACDE00A8669E /* Accelerometer.m */,
 				18B7E5F41CC54DAC00A8669E /* TestingGraph */,
 				18B7E60E1CC54DAC00A8669E /* TestingGraphTests */,
 				18B7E6191CC54DAC00A8669E /* TestingGraphUITests */,
@@ -349,6 +354,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				18B7E5FD1CC54DAC00A8669E /* ViewController.m in Sources */,
+				18B7E62A1CC5ACDE00A8669E /* Accelerometer.m in Sources */,
 				18B7E5FA1CC54DAC00A8669E /* AppDelegate.m in Sources */,
 				18B7E5F71CC54DAC00A8669E /* main.m in Sources */,
 			);

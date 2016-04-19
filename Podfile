@@ -5,6 +5,7 @@
 
 target 'TestingGraph' do
 pod 'BEMSimpleLineGraph'
+pod 'Metawear-iOSAPI'
 end
 
 target 'TestingGraphTests' do

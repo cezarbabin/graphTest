@@ -7,9 +7,10 @@
 //
 
 #import "ViewController.h"
+#import "Accelerometer.h"
 
 
-@interface ViewController ()
+@interface ViewController () <AccelerometerDelegate>
 
 @property NSMutableArray *arrayOfIndices;
 @property NSMutableArray *arrayOfIndices2;
@@ -33,16 +34,9 @@
     self.arrayOfIndices = [NSMutableArray array];
     self.arrayOfIndices2 = [NSMutableArray array];
     
-    
-    
-    
-    //[self.arrayOfIndices insertObject:integer atIndex:0];
-    
-    //NSLog([integer stringValue]);
-    //NSLog([self.arrayOfIndices[0] stringValue]);
-    
-    
-    //NSLog(self.arrayOfIndices);
+    Accelerometer *custom = [[Accelerometer alloc] init];
+    custom.delegate = self;
+    [custom connectDevice];
     
     myGraph2.dataSource = self;
     myGraph2.delegate = self;
@@ -57,37 +51,29 @@
     myGraph.alphaBottom = 0.0;
     myGraph.colorPoint = [UIColor colorWithRed:1.0/255.0 green:1.0/255.0 blue:1.0/255.0 alpha:1];
     myGraph.colorLine = [UIColor colorWithRed:255.0/255.0 green:1.0/255.0 blue:1.0/255.0 alpha:1];
-    //myGraph.colorBottom = [UIColor colorWithRed:0 green:122.0/255.0 blue:255/255 alpha:1];
-    myGraph.enableBezierCurve = YES;
-    
-    
-    
+
     [self.view addSubview:myGraph2];
     [self.view addSubview:myGraph];
     
     [self listSubviewsOfView:self.view];
     
-    for (int i = 1; i <= 64; i++){
-        NSNumber *integer = [NSNumber numberWithDouble:arc4random() % 100];
+    for (int i = 1; i <= 20; i++){
+        NSNumber *integer = [NSNumber numberWithDouble:arc4random() % 1];
         [self.arrayOfIndices addObject:integer];
     }
     
-    for (int i = 1; i <= 64; i++){
-        NSNumber *integer = [NSNumber numberWithDouble:arc4random() % 100];
+    for (int i = 1; i <= 20; i++){
+        NSNumber *integer = [NSNumber numberWithDouble:arc4random() % 1];
         [self.arrayOfIndices2 addObject:integer];
     }
     
+    myGraph.autoScaleYAxis = YES;
+    myGraph2.autoScaleYAxis = YES;
+    
     self.aGraph = myGraph;
     self.bGraph = myGraph2;
-    //[self timedEvent];
     
     self.counter = 0;
-    
-    [NSTimer scheduledTimerWithTimeInterval:0.1
-                                     target:self
-                                   selector:@selector(timedEvent)
-                                   userInfo:nil
-                                    repeats:YES];
     
     CAShapeLayer *circleLayer = [CAShapeLayer layer];
     [circleLayer setPath:[[UIBezierPath bezierPathWithOvalInRect:CGRectMake(20, [[UIScreen mainScreen] bounds].size.height - 150, 100, 100)] CGPath]];
@@ -121,47 +107,55 @@
     [circleLayer2 addSublayer:label2];
     self.label2 = label2;
     
+    self.aGraph.animationGraphStyle = BEMLineAnimationNone;
+    self.bGraph.animationGraphStyle = BEMLineAnimationNone;
+    
+    self.aGraph.enableBezierCurve = YES;
+    self.bGraph.enableBezierCurve = YES;
+    
     //[label release];
 
 }
 
-- (void)timedEvent{
-    self.counter++;
-    //for (int i = 1; i <= 64; i++)
-    //if (self.counter <= 64){
-        self.aGraph.animationGraphStyle = BEMLineAnimationNone;
-        
-        NSNumber *integer = [NSNumber numberWithInt:arc4random() % 100];
-        [self.label setString:[integer stringValue]];
+- (NSInteger)numberOfGapsBetweenLabelsOnLineGraph:(BEMSimpleLineGraphView *)graph {
+    return 1;
+}
+
+-(void)deviceConnected:(Accelerometer *)accelerometer withData:(NSString *)data
+{
+    NSLog(data);
+    NSLog([self title]);
+}
+
+- (void)locationManager:(Accelerometer *)accelerometer didUpdateData:(MBLRMSAccelerometerData *)dataStream{
     
-        //[NSThread sleepForTimeInterval:1.0f];
-        
-        id headObject = [self.arrayOfIndices objectAtIndex:0];
-        if (headObject != nil) {
-            //[[headObject retain] autorelease]; // so it isn't dealloc'ed on remove
-            [self.arrayOfIndices removeObjectAtIndex:0];
-        }
-        
-        [self.arrayOfIndices addObject:integer];
-        [self.aGraph reloadGraph];
+    double myInt = dataStream.rms * 10;
     
-    self.bGraph.animationGraphStyle = BEMLineAnimationNone;
+    NSNumber *integer = [NSNumber numberWithDouble:myInt];
+    NSNumber *integer2 = [NSNumber numberWithDouble:myInt + 1.0];
     
-    NSNumber *integer2 = [NSNumber numberWithInt:arc4random() % 100];
-    [self.label2 setString:[integer2 stringValue]];
-    
-    //[NSThread sleepForTimeInterval:1.0f];
-    
+    id headObject = [self.arrayOfIndices objectAtIndex:0];
+    if (headObject != nil) {
+        [self.arrayOfIndices removeObjectAtIndex:0];
+    }
     id headObject2 = [self.arrayOfIndices2 objectAtIndex:0];
     if (headObject2 != nil) {
-        //[[headObject retain] autorelease]; // so it isn't dealloc'ed on remove
         [self.arrayOfIndices2 removeObjectAtIndex:0];
     }
     
+    [self.arrayOfIndices addObject:integer];
     [self.arrayOfIndices2 addObject:integer2];
+    
+    self.counter++;
+    
+   
+    [self.aGraph reloadGraph];
     [self.bGraph reloadGraph];
-    //}
-
+    [self.label setString:[integer stringValue]];
+    [self.label2 setString:[integer2 stringValue]];
+    self.counter = 0;
+   
+    
 }
 
 - (void)listSubviewsOfView:(UIView *)view {
@@ -189,21 +183,28 @@
 
 - (NSInteger)numberOfPointsInLineGraph:(BEMSimpleLineGraphView *)graph {
     if (graph == self.aGraph){
-        return 64;
+        return 20;
     } else {
-        return 32;
+        return 20;
     }
      // Number of points in the graph.
 }
 
 - (CGFloat)lineGraph:(BEMSimpleLineGraphView *)graph valueForPointAtIndex:(NSInteger)index {
     if (graph == self.aGraph){
-        return [self.arrayOfIndices[index] integerValue]; // The value of the point on the Y-Axis for the index.
+        return [self.arrayOfIndices[index] intValue]; // The value of the point on the Y-Axis for the index.
     } else {
-        return [self.arrayOfIndices2[index] integerValue];
+        return [self.arrayOfIndices2[index] intValue];
     }
     //return 3;
 }
 
+- (CGFloat)maxValueForLineGraph:(BEMSimpleLineGraphView *)graph {
+    return 20;
+}
+
+- (CGFloat)minValueForLineGraph:(BEMSimpleLineGraphView *)graph {
+    return 0;
+}
 
 @end
