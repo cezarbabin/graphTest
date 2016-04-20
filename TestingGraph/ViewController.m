@@ -90,12 +90,10 @@
     NSLog([self title]);
 }
 
-- (void)locationManager:(Accelerometer *)accelerometer didUpdateData:(MBLRMSAccelerometerData *)dataStream{
+- (void)locationManager:(Accelerometer *)accelerometer x:(double)dataStream y:(double)y z:(double)z {
     
-    double myInt = dataStream.rms * 10;
-    
-    [self.accelerometerGraph addX:myInt y:myInt z:myInt];
-    [self.accelerometerGraph2 addX:myInt y:myInt z:myInt];
+    [self.accelerometerGraph addX:dataStream y:y z:z];
+    [self.accelerometerGraph2 addX:dataStream y:y z:z];
    
     
 }

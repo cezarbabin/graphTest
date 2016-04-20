@@ -178,9 +178,9 @@ void DrawGridlines(CGContextRef context, CGFloat x, CGFloat width){}
     for (i = 0; i < 32; ++i)
     {
         lines[i*2].x = i;
-        lines[i*2].y = -xhistory[i] * 1.0;
+        lines[i*2].y = -xhistory[i] * 10.0;
         lines[i*2+1].x = i + 1;
-        lines[i*2+1].y = -xhistory[i+1] * 1.0;
+        lines[i*2+1].y = -xhistory[i+1] * 10.0;
     }
     CGContextSetStrokeColorWithColor(context, graphXColor());
     CGContextStrokeLineSegments(context, lines, 64);
@@ -188,8 +188,8 @@ void DrawGridlines(CGContextRef context, CGFloat x, CGFloat width){}
     // Y
     for (i = 0; i < 32; ++i)
     {
-        lines[i*2].y = -yhistory[i] * 1.0;
-        lines[i*2+1].y = -yhistory[i+1] * 1.0;
+        lines[i*2].y = -yhistory[i] * 10.0;
+        lines[i*2+1].y = -yhistory[i+1] * 10.0;
     }
     CGContextSetStrokeColorWithColor(context, graphYColor());
     CGContextStrokeLineSegments(context, lines, 64);
@@ -197,8 +197,8 @@ void DrawGridlines(CGContextRef context, CGFloat x, CGFloat width){}
     // Z
     for (i = 0; i < 32; ++i)
     {
-        lines[i*2].y = -zhistory[i] * 1.0;
-        lines[i*2+1].y = -zhistory[i+1] * 1.0;
+        lines[i*2].y = -zhistory[i] * 10.0;
+        lines[i*2+1].y = -zhistory[i+1] * 10.0;
     }
     CGContextSetStrokeColorWithColor(context, graphZColor());
     CGContextStrokeLineSegments(context, lines, 64);
