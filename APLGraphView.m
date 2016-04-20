@@ -1,59 +1,6 @@
-
-/*
-     File: APLGraphView.m
- Abstract: Displays a graph of output. This class uses Core Animation techniques to avoid needing to render the entire graph every update.
- 
- The APLGraphView needs to be able to update the scene quickly in order to track the data at a fast enough frame rate. There is too much content to draw the entire graph every frame and sustain a high framerate. This class therefore uses CALayers to cache previously drawn content and arranges them carefully to create an illusion that we are redrawing the entire graph every frame.
- 
-  Version: 1.0.1
- 
- Disclaimer: IMPORTANT:  This Apple software is supplied to you by Apple
- Inc. ("Apple") in consideration of your agreement to the following
- terms, and your use, installation, modification or redistribution of
- this Apple software constitutes acceptance of these terms.  If you do
- not agree with these terms, please do not use, install, modify or
- redistribute this Apple software.
- 
- In consideration of your agreement to abide by the following terms, and
- subject to these terms, Apple grants you a personal, non-exclusive
- license, under Apple's copyrights in this original Apple software (the
- "Apple Software"), to use, reproduce, modify and redistribute the Apple
- Software, with or without modifications, in source and/or binary forms;
- provided that if you redistribute the Apple Software in its entirety and
- without modifications, you must retain this notice and the following
- text and disclaimers in all such redistributions of the Apple Software.
- Neither the name, trademarks, service marks or logos of Apple Inc. may
- be used to endorse or promote products derived from the Apple Software
- without specific prior written permission from Apple.  Except as
- expressly stated in this notice, no other rights or licenses, express or
- implied, are granted by Apple herein, including but not limited to any
- patent rights that may be infringed by your derivative works or by other
- works in which the Apple Software may be incorporated.
- 
- The Apple Software is provided by Apple on an "AS IS" basis.  APPLE
- MAKES NO WARRANTIES, EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION
- THE IMPLIED WARRANTIES OF NON-INFRINGEMENT, MERCHANTABILITY AND FITNESS
- FOR A PARTICULAR PURPOSE, REGARDING THE APPLE SOFTWARE OR ITS USE AND
- OPERATION ALONE OR IN COMBINATION WITH YOUR PRODUCTS.
- 
- IN NO EVENT SHALL APPLE BE LIABLE FOR ANY SPECIAL, INDIRECT, INCIDENTAL
- OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- INTERRUPTION) ARISING IN ANY WAY OUT OF THE USE, REPRODUCTION,
- MODIFICATION AND/OR DISTRIBUTION OF THE APPLE SOFTWARE, HOWEVER CAUSED
- AND WHETHER UNDER THEORY OF CONTRACT, TORT (INCLUDING NEGLIGENCE),
- STRICT LIABILITY OR OTHERWISE, EVEN IF APPLE HAS BEEN ADVISED OF THE
- POSSIBILITY OF SUCH DAMAGE.
- 
- Copyright (C) 2012 Apple Inc. All Rights Reserved.
- 
- */
-
 #import "APLGraphView.h"
 
 #pragma mark - Quartz Helpers
-
-// Functions used to draw all content.
 
 CGColorRef CreateDeviceGrayColor(CGFloat w, CGFloat a)
 {
@@ -63,7 +10,6 @@ CGColorRef CreateDeviceGrayColor(CGFloat w, CGFloat a)
     CGColorSpaceRelease(gray);
     return color;
 }
-
 CGColorRef CreateDeviceRGBColor(CGFloat r, CGFloat g, CGFloat b, CGFloat a)
 {
     CGColorSpaceRef rgb = CGColorSpaceCreateDeviceRGB();
@@ -72,7 +18,6 @@ CGColorRef CreateDeviceRGBColor(CGFloat r, CGFloat g, CGFloat b, CGFloat a)
     CGColorSpaceRelease(rgb);
     return color;
 }
-
 CGColorRef graphBackgroundColor()
 {
     static CGColorRef c = NULL;
@@ -82,17 +27,15 @@ CGColorRef graphBackgroundColor()
     }
     return c;
 }
-
 CGColorRef graphLineColor()
 {
     static CGColorRef c = NULL;
     if (c == NULL)
     {
-        //c = CreateDeviceGrayColor(0.5, 1.0);
+        c = CreateDeviceGrayColor(0.5, 1.0);
     }
     return c;
 }
-
 CGColorRef graphXColor()
 {
     static CGColorRef c = NULL;
@@ -102,7 +45,6 @@ CGColorRef graphXColor()
     }
     return c;
 }
-
 CGColorRef graphYColor()
 {
     static CGColorRef c = NULL;
@@ -112,7 +54,6 @@ CGColorRef graphYColor()
     }
     return c;
 }
-
 CGColorRef graphZColor()
 {
     static CGColorRef c = NULL;
@@ -122,22 +63,12 @@ CGColorRef graphZColor()
     }
     return c;
 }
+void DrawGridlines(CGContextRef context, CGFloat x, CGFloat width){}
 
-float scaleFactor = 16.0;
 
-void DrawGridlines(CGContextRef context, CGFloat x, CGFloat width)
-{
-    
-}
 
-#pragma mark - GraphViewSegment
-
-/*
- The GraphViewSegment manages up to 32 values and a CALayer that it updates with the segment of the graph that those values represent.
- */
 
 @interface APLGraphViewSegment : NSObject
-
 
 // Returns true if adding this value fills the segment, which is necessary for properly updating the segments.
 -(BOOL)addX:(double)x y:(double)y z:(double)z;
@@ -157,8 +88,6 @@ void DrawGridlines(CGContextRef context, CGFloat x, CGFloat width)
 @property(nonatomic, readonly) CALayer *layer;
 
 @end
-
-
 @implementation APLGraphViewSegment
 {
     // Need 33 values to fill 32 pixel width.
@@ -167,7 +96,6 @@ void DrawGridlines(CGContextRef context, CGFloat x, CGFloat width)
     double zhistory[33];
     int index;
 }
-
 
 -(id)init
 {
@@ -183,11 +111,11 @@ void DrawGridlines(CGContextRef context, CGFloat x, CGFloat width)
          This sets our coordinate system such that it has an origin of 0.0,-56 and a size of 32,112.
          This would need to be changed if you change either the number of pixel values that a segment represented, or if you changed the size of the graph view.
          */
-        _layer.bounds = CGRectMake(0.0, -56.0, 32.0, 112.0);
+        _layer.bounds = CGRectMake(0.0, -106.0, 32.0, 212.0);
         /*
          Disable blending as this layer consists of non-transperant content. Unlike UIView, a CALayer defaults to opaque=NO
          */
-        _layer.opaque = YES;
+        _layer.opaque = NO;
         /*
          Index represents how many slots are left to be filled in the graph, which is also +1 compared to the array index that a new entry will be added.
          */
@@ -195,7 +123,6 @@ void DrawGridlines(CGContextRef context, CGFloat x, CGFloat width)
     }
     return self;
 }
-
 
 -(void)reset
 {
@@ -208,20 +135,17 @@ void DrawGridlines(CGContextRef context, CGFloat x, CGFloat width)
     [self.layer setNeedsDisplay];
 }
 
-
 -(BOOL)isFull
 {
     // The segment is full if there is no more space in the history.
     return index == 0;
 }
 
-
 -(BOOL)isVisibleInRect:(CGRect)r
 {
     // Check if there is an intersection between the layer's frame and the given rect.
     return CGRectIntersectsRect(r, self.layer.frame);
 }
-
 
 -(BOOL)addX:(double)x y:(double)y z:(double)z
 {
@@ -240,27 +164,23 @@ void DrawGridlines(CGContextRef context, CGFloat x, CGFloat width)
     return index == 0;
 }
 
-
 -(void)drawLayer:(CALayer*)l inContext:(CGContextRef)context
 {
     // Fill in the background.
-    CGContextSetFillColorWithColor(context, graphBackgroundColor());
+    CGContextSetFillColorWithColor(context, [ [ UIColor clearColor ] CGColor ]);
     CGContextFillRect(context, self.layer.bounds);
-
-    // Draw the grid lines.
-    DrawGridlines(context, 0.0, 32.0);
 
     // Draw the graph.
     CGPoint lines[64];
     int i;
-    
+
     // X
     for (i = 0; i < 32; ++i)
     {
         lines[i*2].x = i;
-        lines[i*2].y = -xhistory[i] * scaleFactor;
+        lines[i*2].y = -xhistory[i] * 36.0;
         lines[i*2+1].x = i + 1;
-        lines[i*2+1].y = -xhistory[i+1] * scaleFactor;
+        lines[i*2+1].y = -xhistory[i+1] * 36.0;
     }
     CGContextSetStrokeColorWithColor(context, graphXColor());
     CGContextStrokeLineSegments(context, lines, 64);
@@ -268,8 +188,8 @@ void DrawGridlines(CGContextRef context, CGFloat x, CGFloat width)
     // Y
     for (i = 0; i < 32; ++i)
     {
-        lines[i*2].y = -yhistory[i] * scaleFactor;
-        lines[i*2+1].y = -yhistory[i+1] * scaleFactor;
+        lines[i*2].y = -yhistory[i] * 36.0;
+        lines[i*2+1].y = -yhistory[i+1] * 36.0;
     }
     CGContextSetStrokeColorWithColor(context, graphYColor());
     CGContextStrokeLineSegments(context, lines, 64);
@@ -277,20 +197,18 @@ void DrawGridlines(CGContextRef context, CGFloat x, CGFloat width)
     // Z
     for (i = 0; i < 32; ++i)
     {
-        lines[i*2].y = -zhistory[i] * scaleFactor;
-        lines[i*2+1].y = -zhistory[i+1] * scaleFactor;
+        lines[i*2].y = -zhistory[i] * 36.0;
+        lines[i*2+1].y = -zhistory[i+1] * 36.0;
     }
     CGContextSetStrokeColorWithColor(context, graphZColor());
     CGContextStrokeLineSegments(context, lines, 64);
 }
-
 
 -(id)actionForLayer:(CALayer *)layer forKey :(NSString *)key
 {
     // We disable all actions for the layer, so no content cross fades, no implicit animation on moves, etc.
     return [NSNull null];
 }
-
 
 // The accessibilityValue of this segment should be the x,y,z values last added.
 - (NSString *)accessibilityValue
@@ -299,51 +217,25 @@ void DrawGridlines(CGContextRef context, CGFloat x, CGFloat width)
 }
 
 @end
-
-
-
 #pragma mark - GraphTextView
-
-/*
- We use a separate view to draw the text for the graph so that we can layer the segment layers below it which gives the illusion that the numbers are draw over the graph, and hides the fact that the graph drawing for each segment is incomplete until the segment is filled.
- */
-
 @interface APLGraphTextView : UIView
-
 @end
+
 
 
 @implementation APLGraphTextView
-
--(void)drawRect:(CGRect)rect
-{
-    
-}
-
+-(void)drawRect:(CGRect)rect{}
 @end
 
 
 
-#pragma mark - APLGraphView
-
-/*
- GraphView handles the public interface as well as arranging the subviews and sublayers to produce the intended effect.
-*/
-
 @interface APLGraphView()
-
-// Internal accessors
 @property (nonatomic) NSMutableArray *segments;
 @property (nonatomic, weak) APLGraphViewSegment *current;
 @property (nonatomic, weak) APLGraphTextView *textView;
-
 @end
-
-
-
 @implementation APLGraphView
 
-// Designated initializer.
 -(id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
@@ -354,8 +246,6 @@ void DrawGridlines(CGContextRef context, CGFloat x, CGFloat width)
     return self;
 }
 
-
-// Designated initializer.
 -(id)initWithCoder:(NSCoder*)decoder
 {
     self = [super initWithCoder:decoder];
@@ -366,31 +256,15 @@ void DrawGridlines(CGContextRef context, CGFloat x, CGFloat width)
     return self;
 }
 
-
 -(void)commonInit
 {
     // Create a mutable array to store segments, which is required by -addSegment.
     _segments = [[NSMutableArray alloc] init];
-    
-    /*
-     Create the text view and add it as a subview. We keep a weak reference to that view afterwards for laying out the segment layers.
-     */
-    APLGraphTextView *text = [[APLGraphTextView alloc] initWithFrame:CGRectMake(0.0, 0.0, 32.0, 112.0)];
-    [self addSubview:text];
-    _textView = text;
-    
-    /*
-     Create a new current segment, which is required by -addX:y:z and other methods.
-     This is also a weak reference (we assume that the 'segments' array will keep the strong reference).
-     */
     _current = [self addSegment];
 }
 
-
 -(void)addX:(double)x y:(double)y z:(double)z
 {
-    scaleFactor = 48.0 / self.fullScale;
-    
     // First, add the new value to the current segment.
     if ([self.current addX:x y:y z:z])
     {
@@ -412,16 +286,8 @@ void DrawGridlines(CGContextRef context, CGFloat x, CGFloat width)
     }
 }
 
-/*
- kSegmentInitialPosition defines the initial position of a segment that is meant to be displayed on the left side of the graph.
- This positioning is meant so that a few entries must be added to the segment's history before it becomes visible to the user. This value could be tweaked a little bit with varying results, but the X coordinate should never be larger than 16 (the center of the text view) or the zero values in the segment's history will be exposed to the user.
- */
-#define kSegmentInitialPosition CGPointMake(14.0, 56.0);
+#define kSegmentInitialPosition CGPointMake(-17.0, 56.0);
 
-
-/*
- Creates a new segment, adds it to 'segments', and returns a weak reference to that segment. Typically a graph will have around a dozen segments, but this depends on the width of the graph view and segments.
- */
 -(APLGraphViewSegment*)addSegment
 {
     // Create a new segment and add it to the segments array.
@@ -442,8 +308,6 @@ void DrawGridlines(CGContextRef context, CGFloat x, CGFloat width)
     return segment;
 }
 
-
-// Recycles a segment from 'segments' into 'current'.
 -(void)recycleSegment
 {
     /*
@@ -471,17 +335,9 @@ void DrawGridlines(CGContextRef context, CGFloat x, CGFloat width)
     }
 }
 
-
-/*
- The graph view itself exists only to draw the background and gridlines. All other content is drawn either into the GraphTextView or into a layer managed by a GraphViewSegment.
- */
 -(void)drawRect:(CGRect)rect
-{
-    
-}
+{}
 
-
-// Return an up-to-date value for the graph.
 - (NSString *)accessibilityValue
 {
     if (self.segments.count == 0)

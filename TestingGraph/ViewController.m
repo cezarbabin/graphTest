@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import "Accelerometer.h"
+#import "APLGraphView.h"
 
 
 @interface ViewController () <AccelerometerDelegate>
@@ -18,6 +19,8 @@
 @property (nonatomic) BEMSimpleLineGraphView *bGraph;
 @property (nonatomic) CATextLayer *label;
 @property (nonatomic) CATextLayer *label2;
+@property (weak, nonatomic) IBOutlet APLGraphView *accelerometerGraph;
+
 @property int counter;
 
 
@@ -27,10 +30,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
-    BEMSimpleLineGraphView *myGraph = [[BEMSimpleLineGraphView alloc] initWithFrame:CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height - 150)];
-    BEMSimpleLineGraphView *myGraph2 = [[BEMSimpleLineGraphView alloc] initWithFrame:CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height - 150)];
-    
+
     self.arrayOfIndices = [NSMutableArray array];
     self.arrayOfIndices2 = [NSMutableArray array];
     
@@ -38,42 +38,8 @@
     custom.delegate = self;
     [custom connectDevice];
     
-    myGraph2.dataSource = self;
-    myGraph2.delegate = self;
-    myGraph2.alphaTop = 0.0;
-    myGraph2.alphaBottom = 0.0;
-    myGraph2.colorPoint = [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:1.0/255.0 alpha:1];
-    myGraph2.colorLine = [UIColor colorWithRed:1.0/255.0 green:255.0/255.0 blue:100.0/255.0 alpha:1];
+    [self.accelerometerGraph setFrame:CGRectMake(0, 0, 320, 112)];
     
-    myGraph.dataSource = self;
-    myGraph.delegate = self;
-    myGraph.alphaTop = 0.0;
-    myGraph.alphaBottom = 0.0;
-    myGraph.colorPoint = [UIColor colorWithRed:1.0/255.0 green:1.0/255.0 blue:1.0/255.0 alpha:1];
-    myGraph.colorLine = [UIColor colorWithRed:255.0/255.0 green:1.0/255.0 blue:1.0/255.0 alpha:1];
-
-    [self.view addSubview:myGraph2];
-    [self.view addSubview:myGraph];
-    
-    [self listSubviewsOfView:self.view];
-    
-    for (int i = 1; i <= 20; i++){
-        NSNumber *integer = [NSNumber numberWithDouble:arc4random() % 1];
-        [self.arrayOfIndices addObject:integer];
-    }
-    
-    for (int i = 1; i <= 20; i++){
-        NSNumber *integer = [NSNumber numberWithDouble:arc4random() % 1];
-        [self.arrayOfIndices2 addObject:integer];
-    }
-    
-    myGraph.autoScaleYAxis = YES;
-    myGraph2.autoScaleYAxis = YES;
-    
-    self.aGraph = myGraph;
-    self.bGraph = myGraph2;
-    
-    self.counter = 0;
     
     CAShapeLayer *circleLayer = [CAShapeLayer layer];
     [circleLayer setPath:[[UIBezierPath bezierPathWithOvalInRect:CGRectMake(20, [[UIScreen mainScreen] bounds].size.height - 150, 100, 100)] CGPath]];
@@ -107,11 +73,7 @@
     [circleLayer2 addSublayer:label2];
     self.label2 = label2;
     
-    self.aGraph.animationGraphStyle = BEMLineAnimationNone;
-    self.bGraph.animationGraphStyle = BEMLineAnimationNone;
     
-    self.aGraph.enableBezierCurve = YES;
-    self.bGraph.enableBezierCurve = YES;
     
     //[label release];
 
@@ -131,29 +93,7 @@
     
     double myInt = dataStream.rms * 10;
     
-    NSNumber *integer = [NSNumber numberWithDouble:myInt];
-    NSNumber *integer2 = [NSNumber numberWithDouble:myInt + 1.0];
-    
-    id headObject = [self.arrayOfIndices objectAtIndex:0];
-    if (headObject != nil) {
-        [self.arrayOfIndices removeObjectAtIndex:0];
-    }
-    id headObject2 = [self.arrayOfIndices2 objectAtIndex:0];
-    if (headObject2 != nil) {
-        [self.arrayOfIndices2 removeObjectAtIndex:0];
-    }
-    
-    [self.arrayOfIndices addObject:integer];
-    [self.arrayOfIndices2 addObject:integer2];
-    
-    self.counter++;
-    
-   
-    [self.aGraph reloadGraph];
-    [self.bGraph reloadGraph];
-    [self.label setString:[integer stringValue]];
-    [self.label2 setString:[integer2 stringValue]];
-    self.counter = 0;
+    [self.accelerometerGraph addX:myInt y:myInt z:myInt];
    
     
 }

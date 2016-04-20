@@ -17,6 +17,7 @@
 		18B7E6101CC54DAC00A8669E /* TestingGraphTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B7E60F1CC54DAC00A8669E /* TestingGraphTests.m */; };
 		18B7E61B1CC54DAC00A8669E /* TestingGraphUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B7E61A1CC54DAC00A8669E /* TestingGraphUITests.m */; };
 		18B7E62A1CC5ACDE00A8669E /* Accelerometer.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B7E6291CC5ACDE00A8669E /* Accelerometer.m */; };
+		18B7E6301CC5FEE100A8669E /* APLGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B7E62F1CC5FEE100A8669E /* APLGraphView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +58,8 @@
 		18B7E61C1CC54DAC00A8669E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		18B7E6281CC5ACDE00A8669E /* Accelerometer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Accelerometer.h; path = ../ACCDelegate/Accelerometer.h; sourceTree = "<group>"; };
 		18B7E6291CC5ACDE00A8669E /* Accelerometer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Accelerometer.m; path = ../ACCDelegate/Accelerometer.m; sourceTree = "<group>"; };
+		18B7E62E1CC5FEE100A8669E /* APLGraphView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APLGraphView.h; sourceTree = SOURCE_ROOT; };
+		18B7E62F1CC5FEE100A8669E /* APLGraphView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APLGraphView.m; sourceTree = SOURCE_ROOT; };
 		87395E80D9F7395B72739A33 /* libPods-TestingGraph.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TestingGraph.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -117,6 +120,8 @@
 				18B7E5F91CC54DAC00A8669E /* AppDelegate.m */,
 				18B7E5FB1CC54DAC00A8669E /* ViewController.h */,
 				18B7E5FC1CC54DAC00A8669E /* ViewController.m */,
+				18B7E62E1CC5FEE100A8669E /* APLGraphView.h */,
+				18B7E62F1CC5FEE100A8669E /* APLGraphView.m */,
 				18B7E5FE1CC54DAC00A8669E /* Main.storyboard */,
 				18B7E6011CC54DAC00A8669E /* Assets.xcassets */,
 				18B7E6031CC54DAC00A8669E /* LaunchScreen.storyboard */,
@@ -356,6 +361,7 @@
 				18B7E5FD1CC54DAC00A8669E /* ViewController.m in Sources */,
 				18B7E62A1CC5ACDE00A8669E /* Accelerometer.m in Sources */,
 				18B7E5FA1CC54DAC00A8669E /* AppDelegate.m in Sources */,
+				18B7E6301CC5FEE100A8669E /* APLGraphView.m in Sources */,
 				18B7E5F71CC54DAC00A8669E /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
