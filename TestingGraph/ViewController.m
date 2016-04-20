@@ -19,6 +19,7 @@
 @property (nonatomic) BEMSimpleLineGraphView *bGraph;
 @property (nonatomic) CATextLayer *label;
 @property (nonatomic) CATextLayer *label2;
+@property (weak, nonatomic) IBOutlet APLGraphView *accelerometerGraph2;
 @property (weak, nonatomic) IBOutlet APLGraphView *accelerometerGraph;
 
 @property int counter;
@@ -94,6 +95,7 @@
     double myInt = dataStream.rms * 10;
     
     [self.accelerometerGraph addX:myInt y:myInt z:myInt];
+    [self.accelerometerGraph2 addX:myInt y:myInt z:myInt];
    
     
 }
