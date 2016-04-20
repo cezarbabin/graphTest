@@ -56,8 +56,8 @@
 		18B7E6161CC54DAC00A8669E /* TestingGraphUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TestingGraphUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		18B7E61A1CC54DAC00A8669E /* TestingGraphUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TestingGraphUITests.m; sourceTree = "<group>"; };
 		18B7E61C1CC54DAC00A8669E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		18B7E6281CC5ACDE00A8669E /* Accelerometer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Accelerometer.h; path = ../ACCDelegate/Accelerometer.h; sourceTree = "<group>"; };
-		18B7E6291CC5ACDE00A8669E /* Accelerometer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Accelerometer.m; path = ../ACCDelegate/Accelerometer.m; sourceTree = "<group>"; };
+		18B7E6281CC5ACDE00A8669E /* Accelerometer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Accelerometer.h; path = ../../ACCDelegate/Accelerometer.h; sourceTree = "<group>"; };
+		18B7E6291CC5ACDE00A8669E /* Accelerometer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Accelerometer.m; path = ../../ACCDelegate/Accelerometer.m; sourceTree = "<group>"; };
 		18B7E62E1CC5FEE100A8669E /* APLGraphView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APLGraphView.h; sourceTree = SOURCE_ROOT; };
 		18B7E62F1CC5FEE100A8669E /* APLGraphView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APLGraphView.m; sourceTree = SOURCE_ROOT; };
 		87395E80D9F7395B72739A33 /* libPods-TestingGraph.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TestingGraph.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -92,8 +92,6 @@
 		18B7E5E91CC54DAC00A8669E = {
 			isa = PBXGroup;
 			children = (
-				18B7E6281CC5ACDE00A8669E /* Accelerometer.h */,
-				18B7E6291CC5ACDE00A8669E /* Accelerometer.m */,
 				18B7E5F41CC54DAC00A8669E /* TestingGraph */,
 				18B7E60E1CC54DAC00A8669E /* TestingGraphTests */,
 				18B7E6191CC54DAC00A8669E /* TestingGraphUITests */,
@@ -116,6 +114,8 @@
 		18B7E5F41CC54DAC00A8669E /* TestingGraph */ = {
 			isa = PBXGroup;
 			children = (
+				18B7E6281CC5ACDE00A8669E /* Accelerometer.h */,
+				18B7E6291CC5ACDE00A8669E /* Accelerometer.m */,
 				18B7E5F81CC54DAC00A8669E /* AppDelegate.h */,
 				18B7E5F91CC54DAC00A8669E /* AppDelegate.m */,
 				18B7E5FB1CC54DAC00A8669E /* ViewController.h */,
